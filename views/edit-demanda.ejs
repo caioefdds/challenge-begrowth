@@ -7,12 +7,14 @@
             <h1>Editar Demanda</h1>
           </div>
           <div class="card-body">
-            <form action="/demanda/edit/confirm" method="post">
+            <form action="/demanda/edit/confirm" method="post" onsubmit="Data(event, this)">
               <input type="hidden" name="id" value="<%= demanda.id %>">
+              <input type="hidden" name="datenow" id="datenow">
+              <input type="hidden" name="data_validade" id="new_validade">
               <label for="descricao">Nome do produto</label>
               <input type="text" class="form-control" name="descricao" value="<%= demanda.descricao %>" placeholder="Insira o nome do produto"><br>
               <label for="data_validade">Data de validade</label>
-              <input type="date" class="form-control" name="data_validade" value="<%= demanda.data_validade %>" placeholder="Data"><br>
+              <input type="date" class="form-control" value="<%= demanda.data_validade %>" id="data_validade" placeholder="Data"><br>
               <label for="local_entrega">Local de Entrega</label>
               <input type="text" class="form-control" name="local_entrega" value="<%= demanda.local_entrega %>" placeholder="Insira o local de entrega"><br>
               <button type="submit" class="btn btn-success">Editar Demanda</button>

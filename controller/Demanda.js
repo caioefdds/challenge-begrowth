@@ -96,23 +96,34 @@ router.post("/demanda/edit/confirm", (req, res) => {
   var descricao = req.body.descricao;
   var data_validade = req.body.data_validade;
   var local_entrega = req.body.local_entrega;
+  var datenow = req.body.datenow;
 
   if(descricao != '' && data_validade != '' && local_entrega != '') {
-    Demanda.update({
-      descricao: descricao,
-      data_validade: data_validade,
-      local_entrega: local_entrega,
-      status: 0,
-      id_entregador: null
-    },{
-      where: {
-        id: id
-      }
-    }).then(() => {
-          res.redirect("/demanda");
+    if(datenow <= data_validade) {
+      Demanda.update({
+        descricao: descricao,
+        data_validade: data_validade,
+        local_entrega: local_entrega,
+        status: 0,
+        id_entregador: null
+      },{
+        where: {
+          id: id
+        }
+      }).then(() => {
+        req.flash('msg_success', 'Sucesso!');
+        res.redirect("/demanda");
       }).catch( err => {
-          res.redirect("/");
+        req.flash('msg_error', 'Falha');
+        res.redirect("/demanda/new");
       });
+    } else {
+      req.flash('msg_error', 'A data de validade deve ser maior que a data atual.');
+      res.redirect("/demanda/list");
+    }
+  } else {
+    req.flash('msg_error', 'Preencha corretamente os campos');
+    res.redirect("/demanda/list");
   }
 });
 
