@@ -70,7 +70,11 @@ router.get("/demanda/list", CompanyAuth, (req, res) => {
     }).then(demanda => {
     res.render("list-demanda", {
       demanda: demanda,
-      session: session
+      session: session,
+      message: {
+        success: req.flash('msg_success'),
+        error: req.flash('msg_error')
+      }
     });
   })
 });
@@ -136,8 +140,10 @@ router.post("/demanda/delete", (req, res) => {
           id: id
         }
       }).then(() => {
+          req.flash('msg_success', 'Demanda excluída!');
           res.redirect("/demanda/list");
       }).catch( err => {
+          req.flash('msg_error', 'Falha!');
           res.redirect("/demanda/list");
       });
 });

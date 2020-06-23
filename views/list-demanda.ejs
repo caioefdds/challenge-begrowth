@@ -1,5 +1,16 @@
 <%- include("partials/header.ejs"); %>
 <%- include("partials/nav.ejs"); %>
+
+<% if(message.success.length > 0) { %>
+    <div class="alert alert-success text-center">
+        <%= message.success %>
+    </div>
+<% } else if(message.error.length > 0) { %>
+    <div class="alert alert-danger text-center">
+        <%= message.error %>
+    </div>
+<% } %>
+
     <div class="container-fluid mt-5 text-center">
 
       <!-- Verificação de empresa -->
@@ -39,7 +50,12 @@
                               <td class="align-middle bg-warning">Aguardando</td>
                             <% } %>
 
-                            <td class="align-middle"><%= demanda.rows[a].id_entregador %></td>
+                              <% if(demanda.rows[a].id_entregador != null) { %>
+                                  <td class="align-middle"><%= demanda.rows[a].tab_user.nome %></td>
+                              <% } else { %>
+                                  <td class="align-middle"><%= demanda.rows[a].id_entregador %></td>
+                              <% }%>
+
                             <td class="d-flex justify-content-center">
                               <!-- Editar -->
                               <form action="/demanda/edit" method="post">
