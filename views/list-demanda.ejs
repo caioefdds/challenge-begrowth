@@ -1,0 +1,75 @@
+<%- include("partials/header.ejs"); %>
+<%- include("partials/nav.ejs"); %>
+    <div class="container-fluid mt-5 text-center">
+
+      <!-- Verificação de empresa -->
+      <% if(session.type == 'company') { %>
+        <a href="/demanda/new" type="button" class="btn btn-success mb-5 ">CRIAR DEMANDA</a>
+        <a href="/demanda/list" type="button" class="btn btn-success mb-5 ">MINHAS DEMANDAS</a>
+      <% } %>
+
+      <div class="table-responsive-sm">
+        <table class="table table-bordered table-dark">
+                      <thead>
+                          <tr>
+                              <th scope="col">Empresa</th>
+                              <th scope="col">Descricao</th>
+                              <th scope="col">Validade</th>
+                              <th scope="col">Local</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Entregador</th>
+                              <th scope="col">Ações</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+
+                        <!-- Laço de repetição para listagem -->
+                        <% for(var a=0; a<demanda.count; a++) { %>
+                          <tr>
+                            <!-- Colunas -->
+                            <th class="align-middle" scope="row"><%= demanda.rows[a]['tab_company'].descricao %></th>
+                            <td class="align-middle"><%= demanda.rows[a].descricao %></td>
+                            <td class="align-middle"><%= demanda.rows[a].data_validade; %></td>
+                            <td class="align-middle"><%= demanda.rows[a].local_entrega %></td>
+
+                            <!-- Verificação para coluna Status -->
+                            <% if(demanda.rows[a].status == 1) { %>
+                            <td class="align-middle bg-success">Entregue</td>
+                            <% } else { %>
+                              <td class="align-middle bg-warning">Aguardando</td>
+                            <% } %>
+
+                            <td class="align-middle"><%= demanda.rows[a].id_entregador %></td>
+                            <td class="d-flex justify-content-center">
+                              <!-- Editar -->
+                              <form action="/demanda/edit" method="post">
+                                <input type="hidden" name="id" value="<%= demanda.rows[a].id %>">
+                                <button type="submit" class="btn btn-warning mx-1 my-1">Editar</button>
+                              </form>
+                              <!-- Remover -->
+                              <form action="/demanda/delete" method="post" onsubmit="confirma(event, this)">
+                                <input type="hidden" name="id" value="<%= demanda.rows[a].id %>">
+                                <button type="submit" name="button" class="btn btn-danger mx-1 my-1">Excluir</button>
+                              </form>
+
+                            </td>
+
+                            <!-- Ações -->
+                          </tr>
+                        <% } %>
+
+                      </tbody>
+          </table>
+      </div>
+
+<%- include("partials/footer.ejs"); %>
+<script>
+    function confirma(event, form) {
+        event.preventDefault();
+        var decision = confirm("Você quer deletar essa demanda?");
+
+        if(decision) {
+            form.submit();
+        }
+    }
+</script>

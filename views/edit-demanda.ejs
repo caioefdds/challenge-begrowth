@@ -1,0 +1,25 @@
+<%- include("partials/header.ejs"); %>
+<%- include("partials/nav.ejs"); %>
+    <div class="container-fluid mt-5 text-center">
+      <div class="row justify-content-center">
+        <div class="card col-lg-6 col-md-8 col-sm-12">
+          <div class="card-header">
+            <h1>Editar Demanda</h1>
+          </div>
+          <div class="card-body">
+            <form action="/demanda/edit/confirm" method="post">
+              <input type="hidden" name="id" value="<%= demanda.id %>">
+              <label for="descricao">Nome do produto</label>
+              <input type="text" class="form-control" name="descricao" value="<%= demanda.descricao %>" placeholder="Insira o nome do produto"><br>
+              <label for="data_validade">Data de validade</label>
+              <input type="date" class="form-control" name="data_validade" value="<%= demanda.data_validade %>" placeholder="Data"><br>
+              <label for="local_entrega">Local de Entrega</label>
+              <input type="text" class="form-control" name="local_entrega" value="<%= demanda.local_entrega %>" placeholder="Insira o local de entrega"><br>
+              <button type="submit" class="btn btn-success">Editar Demanda</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+<%- include("partials/footer.ejs"); %>

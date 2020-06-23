@@ -1,0 +1,39 @@
+<%- include("partials/header.ejs"); %>
+<%- include("partials/nav.ejs"); %>
+
+<% if(message.success.length > 0) { %>
+  <div class="alert alert-success text-center">
+    <%= message.success %>
+  </div>
+<% } else if(message.error.length > 0) { %>
+  <div class="alert alert-danger text-center">
+    <%= message.error %>
+  </div>
+<% } %>
+
+<div class="container mt-5">
+  <div class="row justify-content-md-center text-center">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h1>Login</h1>
+        </div>
+        <form action="/company/login" method="post">
+
+          <div class="card-body px-5 row justify-content-md-center">
+            <div class="container col-md-8">
+              <label class="font-weight-bold" for="email">E-mail</label>
+              <input type="email" class="form-control" name="email" placeholder="Insira seu e-mail"><br>
+              <label class="font-weight-bold" for="password">Senha</label>
+              <input type="password" class="form-control" name="password" placeholder="Insira sua senha">
+              <button type="submit" class="btn btn-success mt-3">Entrar</button><br>
+              <p class="mt-2">Não possui conta?<a href="/company-register"> clique aqui</a> para registrar.</p>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include("partials/footer.ejs"); %>

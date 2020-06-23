@@ -1,0 +1,92 @@
+<%- include("partials/header.ejs"); %>
+<%- include("partials/nav.ejs"); %>
+
+<% if(message.success.length > 0) { %>
+  <div class="alert alert-success text-center">
+    <%= message.success %>
+  </div>
+<% } else if(message.error.length > 0) { %>
+  <div class="alert alert-danger text-center">
+    <%= message.error %>
+  </div>
+<% } %>
+
+    <div class="container-fluid mt-5 text-center">
+
+      <!-- Verificação de empresa -->
+      <% if(session.type == 'company') { %>
+        <a href="/demanda/new" type="button" class="btn btn-success mb-5 ">CRIAR DEMANDA</a>
+        <a href="/demanda/list" type="button" class="btn btn-success mb-5 ">MINHAS DEMANDAS</a>
+      <% } %>
+      <a href="/logout" type="button" class="btn btn-danger mb-5 ">Sair</a>
+
+      <div class="table-responsive-sm">
+        <table class="table table-bordered table-dark">
+                      <thead>
+                          <tr>
+                              <th scope="col">Empresa</th>
+                              <th scope="col">Descricao</th>
+                              <th scope="col">Validade</th>
+                              <th scope="col">Local</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Entregador</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+
+                        <!-- Laço de repetição para listagem -->
+                        <% for(var a=0; a<demanda.count; a++) { %>
+                          <tr>
+                            <!-- Colunas -->
+                            <th class="align-middle" scope="row"><%= demanda.rows[a]['tab_company'].descricao %></th>
+                            <td class="align-middle"><%= demanda.rows[a].descricao %></td>
+                            <td class="align-middle"><%= demanda.rows[a].data_validade; %></td>
+                            <td class="align-middle"><%= demanda.rows[a].local_entrega %></td>
+
+                            <!-- Verificação para coluna Status -->
+                            <% if(demanda.rows[a].status == 1) { %>
+                            <td class="align-middle bg-success">Entregue</td>
+                            <% } else { %>
+                              <td class="align-middle bg-warning">Aguardando</td>
+                            <% } %>
+
+                            <!-- Verificação para coluna entregador -->
+                            <% if(demanda.rows[a].status == 1) { %>
+                              <td>FINALIZADO</td>
+                            <% } else if(demanda.rows[a].id_entregador == undefined && session.type == 'user') { %>
+
+                                <form action="/user/get-product" method="post">
+                                  <input type="hidden" name="id" value="<%= demanda.rows[a].id %>">
+                                  <td class="justify-content-center my-auto"><button type="submit" class="btn btn-success">PEGAR PRODUTO</button></td>
+                                </form>
+
+                              <% } else if(demanda.rows[a].id_entregador == session.id && session.type == 'user') { %>
+                                <td class="justify-content-center my-auto align-middle" style="display: flex; flex-wrap: wrap;">
+
+                                  <form action="/user/withdraw-product" method="post">
+                                    <input type="hidden" name="id" value="<%= demanda.rows[a].id %>">
+                                    <button type="submit" class="btn btn-success my-1 mx-1">Retirar produto</button>
+                                  </form>
+
+                                  <form action="/user/finish" method="post">
+                                    <input type="hidden" name="id" value="<%= demanda.rows[a].id %>">
+                                    <button type="submit" class="btn btn-success my-1">Finalizar</button>
+                                  </form>
+                                </td>
+                              <% } else { %>
+                                <% if(demanda.rows[a].id_entregador != null) { %>
+                                  <td><%= demanda.rows[a].tab_user.nome %></td>
+                                <% } else { %>
+                                  <td></td>
+                                <% } %>
+                              <% } %>
+                            <!-- Fim Verificação entregador -->
+
+                          </tr>
+                        <% } %>
+
+                      </tbody>
+          </table>
+      </div>
+
+<%- include("partials/footer.ejs"); %>

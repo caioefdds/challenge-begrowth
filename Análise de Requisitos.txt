@@ -1,0 +1,15 @@
+Duas entradas => empresa de alimentacao e entregadores
+
+Empresa de alimentos => Adicionar os produtos que estão prestes a vencer.
+Entregador => Receber a demanda e escolher quais serão os produtos que eles irão recolher.
+
+DataBase:
+	delivery_system
+Tables:
+	tab_user: (id, nome, email, senha);
+	tab_empresa: (id, descricao, email, senha);
+	tab_demanda: (id, descricao, id_empresa, id_entregador, data_validade, local_entrega, entregue);
+			
+
+
+

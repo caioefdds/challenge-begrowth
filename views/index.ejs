@@ -1,0 +1,23 @@
+<%- include("partials/header.ejs"); %>
+<%- include("partials/nav.ejs"); %>
+
+<% if(message.success.length > 0) { %>
+  <div class="alert alert-success text-center">
+    <%= message.success %>
+  </div>
+<% } else if(message.error.length > 0) { %>
+  <div class="alert alert-danger text-center">
+    <%= message.error %>
+  </div>
+<% } %>
+<div class="container mt-5 text-center">
+  <div class="card">
+    <div class="card-header">
+      <h1>Delivery System</h1>
+    </div>
+    <div class="card-body">
+      <h3>To access make your registration</h3>
+    </div>
+  </div>
+</div>
+<%- include("partials/footer.ejs"); %>
